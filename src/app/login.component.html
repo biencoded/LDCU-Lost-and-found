@@ -1,0 +1,176 @@
+<div class="login-shell">
+  <main class="login-page">
+    <section class="hero-panel">
+      <div class="hero-copy">
+        <h2>Liceo de Cagayan University</h2>
+        <p>Committed to Total Human Formation</p>
+      </div>
+    </section>
+
+    <section class="form-shell">
+      <div class="form-header">
+        <div>
+          <h3>Digital Lost and Found</h3>
+        </div>
+        <div class="tab-switch">
+          <button
+            type="button"
+            class="tab-btn"
+            [class.active]="mode === 'login'"
+            (click)="mode = 'login'"
+          >
+            Login
+          </button>
+          <button
+            type="button"
+            class="tab-btn"
+            [class.active]="mode === 'register'"
+            (click)="mode = 'register'"
+          >
+            Register
+          </button>
+        </div>
+      </div>
+
+      <form class="login-form" *ngIf="mode === 'login'" novalidate>
+        <div class="field-group">
+          <label class="field-label">Email Address</label>
+          <div class="field-wrap">
+            <span class="field-icon">mail</span>
+            <input
+              class="field-input"
+              type="email"
+              placeholder="user@gmail.com"
+              [(ngModel)]="email"
+              name="email"
+            />
+          </div>
+        </div>
+
+        <div class="field-group">
+          <label class="field-label">Password</label>
+          <div class="field-wrap">
+            <span class="field-icon">lock</span>
+            <input
+              class="field-input"
+              type="password"
+              placeholder="Enter your password"
+              [(ngModel)]="password"
+              name="password"
+            />
+            <button class="field-action" type="button">visibility</button>
+          </div>
+        </div>
+
+        <div class="field-group">
+          <label class="field-label">Login Role</label>
+          <div class="field-wrap select-wrap">
+            <span class="field-icon">toggle_on</span>
+            <select class="field-input" [(ngModel)]="loginRole" name="loginRole">
+              <option value="student">Student</option>
+              <option value="admin">Admin</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="action-group">
+          <button class="primary-btn" type="button" (click)="login(loginRole)" [disabled]="loading">
+            Sign In
+          </button>
+        </div>
+
+        <div class="action-group secondary-actions">
+          <button class="secondary-btn" type="button" (click)="login('admin')" [disabled]="loading">
+            Admin
+          </button>
+          <button class="secondary-btn" type="button" (click)="login('student')" [disabled]="loading">
+            Student
+          </button>
+        </div>
+      </form>
+
+      <form class="login-form" *ngIf="mode === 'register'" novalidate>
+        <div class="field-group">
+          <label class="field-label">Full Name</label>
+          <div class="field-wrap">
+            <span class="field-icon">person</span>
+            <input
+              class="field-input"
+              type="text"
+              placeholder="Jane Doe"
+              [(ngModel)]="name"
+              name="name"
+            />
+          </div>
+        </div>
+
+        <div class="field-group">
+          <label class="field-label">Email Address</label>
+          <div class="field-wrap">
+            <span class="field-icon">mail</span>
+            <input
+              class="field-input"
+              type="email"
+              placeholder="user@gmail.com"
+              [(ngModel)]="registerEmail"
+              name="registerEmail"
+            />
+          </div>
+        </div>
+
+        <div class="field-group">
+          <label class="field-label">Password</label>
+          <div class="field-wrap">
+            <span class="field-icon">lock</span>
+            <input
+              class="field-input"
+              type="password"
+              placeholder="Create a password"
+              [(ngModel)]="registerPassword"
+              name="registerPassword"
+            />
+          </div>
+        </div>
+
+        <div class="field-group">
+          <label class="field-label">Role</label>
+          <div class="field-wrap select-wrap">
+            <span class="field-icon">school</span>
+            <select class="field-input" [(ngModel)]="role" name="role">
+              <option value="student">Student</option>
+              <option value="admin">Admin</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="action-group">
+          <button class="primary-btn" type="button" (click)="register()" [disabled]="loading">
+            Register Now
+          </button>
+        </div>
+      </form>
+
+      <p class="note-text">
+        Use admin@ldcu.edu.ph / admin123 or student@ldcu.edu.ph / student123 for testing purposes.
+      </p>
+
+      <p class="error-message" *ngIf="error">{{ error }}</p>
+    </section>
+  </main>
+
+  <footer class="page-footer">
+    <div class="footer-body">
+      <div>
+        <span class="footer-title">Beacon Compass</span>
+        <p>The Digital Curator. Precision in recovery through empathy and technology.</p>
+        <p class="footer-copy">© 2024 The Digital Curator. Precision in Recovery.</p>
+      </div>
+      <div class="footer-links">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Service</a>
+        <a href="#">Help Center</a>
+        <a href="#">Contact Support</a>
+      </div>
+    </div>
+  </footer>
+</div>

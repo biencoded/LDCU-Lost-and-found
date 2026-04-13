@@ -1,0 +1,81 @@
+<div class="search-container">
+  <h2>Search Lost & Found Items</h2>
+
+  <div *ngIf="successMessage()" class="success-message">
+    ✓ {{ successMessage() }}
+  </div>
+
+  <div *ngIf="errorMessage()" class="error-message">
+    ✗ {{ errorMessage() }}
+  </div>
+
+  <div class="search-form">
+    <div class="search-input">
+      <input 
+        [value]="searchText()" 
+        (input)="onSearchChange($any($event).target.value)"
+        placeholder="Search by item name, description, or location...">
+    </div>
+
+    <div class="filters">
+      <div class="filter-group">
+        <label>Category:</label>
+        <select 
+          [value]="filterCategory()" 
+          (change)="onCategoryChange($any($event).target.value)">
+          <option>All</option>
+          <option>Lost</option>
+          <option>Found</option>
+        </select>
+      </div>
+
+      <div class="filter-group" *ngIf="currentUser() && currentUser()!.role === 'admin'">
+        <label>Status:</label>
+        <select 
+          [value]="filterStatus()" 
+          (change)="onStatusChange($any($event).target.value)">
+          <option>All</option>
+          <option value="open">Open</option>
+          <option value="claimed">Claimed</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="isLoading()" class="loading">
+    Loading items...
+  </div>
+
+  <div class="items-list" *ngIf="!isLoading() && filteredItems.length > 0; else noResults">
+    <div class="item-card" *ngFor="let item of filteredItems">
+      <div class="item-header">
+        <h3>{{ item.title }}</h3>
+        <span class="badge" [class.lost]="item.category === 'Lost'" [class.found]="item.category === 'Found'">
+          {{ item.category }}
+        </span>
+        <span class="status-badge" [class.open]="item.status === 'open'" [class.claimed]="item.status === 'claimed'">
+          {{ item.status | uppercase }}
+        </span>
+      </div>
+
+      <p><strong>Location:</strong> {{ item.location }}</p>
+      <p><strong>Date:</strong> {{ item.date }}</p>
+      <p><strong>Description:</strong> {{ item.description }}</p>
+
+      <div class="item-actions" *ngIf="currentUser() && currentUser()!.role === 'admin'">
+        <button 
+          (click)="changeStatus(item)"
+          [disabled]="updatingItem() === item.id"
+          [class.loading]="updatingItem() === item.id">
+          {{ updatingItem() === item.id ? 'Updating...' : 'Change Status to ' + (item.status === 'open' ? 'Claimed' : 'Open') }}
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <ng-template #noResults>
+    <div class="no-results">
+      <p *ngIf="!isLoading()">No items found matching your search. Try different keywords or check back later.</p>
+    </div>
+  </ng-template>
+</div>
