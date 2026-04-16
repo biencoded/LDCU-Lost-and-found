@@ -1,0 +1,133 @@
+<div class="home-page">
+  <section class="hero-section">
+    <div class="hero-copy">
+      <div class="hero-pill">
+  
+      </div>
+      <h1>
+        Welcome to
+        <span>LDCU Digital Lost &amp; Found.</span>
+      </h1>
+      <p>
+        Report, search, and recover lost items with ease. Our system treats every item with care and every user with absolute clarity, helping you reunite with what matters.
+      </p>
+
+      <div class="hero-actions">
+        <a routerLink="/report" class="primary-button">
+          <span class="button-icon">✍</span>
+          Report Lost Item
+        </a>
+        <a routerLink="/gallery" class="secondary-button">
+          <span class="button-icon">🔎</span>
+          Open Gallery
+        </a>
+      </div>
+
+      <div class="hero-trust">
+        <div class="avatars">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+        <p>Trusted by 12,000+ community members</p>
+      </div>
+    </div>
+
+  </section>
+
+  <section class="usage-section">
+    <div class="usage-summary-panel">
+      <div>
+        <div class="label-pill">Live usage</div>
+        <h2>Weekly site usage</h2>
+      </div>
+    </div>
+
+    <div class="usage-graph-card">
+      <div class="usage-graph-header">
+        <h3>Weekly activity trend</h3>
+        <span>Updated {{ isLoading() ? 'loading...' : 'now' }}</span>
+      </div>
+      <div class="usage-graph">
+        <div class="usage-axis">
+          <span>0</span>
+          <span>250</span>
+          <span>500</span>
+          <span>750</span>
+          <span>1K</span>
+        </div>
+        <div class="graph-bars">
+          <div *ngFor="let bar of graphBars()" class="graph-bar" [class]="bar.status + '-bar'" [style.height.%]="bar.height"></div>
+        </div>
+      </div>
+    </div>
+  
+  <section class="feature-section">
+    <div class="section-heading">
+      <h2>Precision in Recovery</h2>
+      <p>A seamless path from loss to reunion, guided by The Digital Curator.</p>
+    </div>
+
+    <div class="feature-grid">
+      <article class="feature-item">
+        <div class="feature-icon">📝</div>
+        <h3>Report Lost Items</h3>
+        <p>Submit detailed reports quickly so the community can identify lost items sooner.</p>
+      </article>
+      <article class="feature-item">
+        <div class="feature-icon">🔍</div>
+        <h3>Browse the Gallery</h3>
+        <p>Explore lost and found listings, then search by item name, location, or description to spot a match fast.</p>
+      </article>
+      <article class="feature-item">
+        <div class="feature-icon">🔔</div>
+        <h3>Get Notified</h3>
+        <p>Receive instant alerts whenever an item matching your description appears.</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="gallery-section">
+    <div class="gallery-header">
+      <div>
+        <h2>The Gallery of Found Objects</h2>
+        <p>Every item has a story. Here are the latest recoveries curated by our community.</p>
+      </div>
+      <a routerLink="/gallery" class="gallery-link">
+        View Full Gallery <span class="arrow">→</span>
+      </a>
+    </div>
+
+    <div class="gallery-grid">
+      <article class="gallery-card">
+        <div class="gallery-top-bar found-bar"></div>
+        <div class="gallery-image image-1"></div>
+        <div class="gallery-copy">
+          <span class="gallery-tag found">FOUND</span>
+          <h3>Silver Wristwatch</h3>
+          <p>Found at Grand Central Concourse</p>
+          <button class="gallery-action">Claim Item</button>
+        </div>
+      </article>
+      <article class="gallery-card">
+        <div class="gallery-top-bar lost-bar"></div>
+        <div class="gallery-image image-2"></div>
+        <div class="gallery-copy">
+          <span class="gallery-tag lost">LOST</span>
+          <h3>Leather Camera Bag</h3>
+          <p>Lost near Central Park West</p>
+          <button class="gallery-action">I Found This</button>
+        </div>
+      </article>
+      <article class="gallery-card">
+        <div class="gallery-top-bar found-bar"></div>
+        <div class="gallery-image image-3"></div>
+        <div class="gallery-copy">
+          <span class="gallery-tag found">FOUND</span>
+          <h3>Wireless Earbuds</h3>
+          <p>Found in Library Room 3B</p>
+          <button class="gallery-action">Claim Item</button>
+        </div>
+      </article>
+    </div>
+  </section>
