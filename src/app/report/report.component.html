@@ -1,0 +1,115 @@
+<div class="report-container">
+  <h2>Report a Lost Item</h2>
+
+  <div *ngIf="!isAuthenticated(); else reportForm" class="auth-warning">
+    <p>Please log in or register before reporting a lost item.</p>
+    <div class="auth-buttons">
+      <a routerLink="/login">Login</a>
+      <a routerLink="/register">Register</a>
+    </div>
+  </div>
+
+  <ng-template #reportForm>
+
+    <div *ngIf="successMessage()" class="success-message">
+      ✓ {{ successMessage() }}
+    </div>
+
+    <div *ngIf="errorMessage()" class="error-message">
+      ✗ {{ errorMessage() }}
+    </div>
+
+    <form (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label>Item Name *</label>
+        <input 
+          type="text" 
+          placeholder="e.g., Black Leather Wallet"
+          [value]="formData().title"
+          (input)="onTitleChange($any($event).target.value)"
+          [disabled]="isLoading()"
+          required>
+      </div>
+
+      
+      <div class="form-group">
+        <label>Category *</label>
+        <select 
+          [value]="formData().category"
+          (change)="onCategoryChange($any($event).target.value)"
+          [disabled]="isLoading()"
+          required>
+          <option value="Lost">Lost</option>
+          <option value="Found">Found</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Location *</label>
+        <input 
+          type="text" 
+          placeholder="e.g., Main Library, Campus Bus"
+          [value]="formData().location"
+          (input)="onLocationChange($any($event).target.value)"
+          [disabled]="isLoading()"
+          required>
+      </div>
+
+      <div class="form-group">
+        <label>Date *</label>
+        <input 
+          type="date" 
+          [value]="formData().date"
+          (input)="onDateChange($any($event).target.value)"
+          [disabled]="isLoading()"
+          required>
+      </div>
+
+      <div class="form-group">
+        <label>Description *</label>
+        <textarea 
+          placeholder="Detailed description of the item, any distinguishing features, condition, etc."
+          [value]="formData().description"
+          (input)="onDescriptionChange($any($event).target.value)"
+          [disabled]="isLoading()"
+          required></textarea>
+      </div>
+
+      <div class="form-group">
+        <label for="photo">Photo</label>
+        <input
+          #photoInput
+          id="photo"
+          class="photo-input"
+          type="file"
+          accept="image/*"
+          (change)="onPhotoChange($event)"
+          [disabled]="isLoading()">
+        <label
+          for="photo"
+          class="photo-upload"
+          [class.disabled]="isLoading()">
+          <span class="photo-upload-button">Choose Photo</span>
+          <span class="photo-upload-name">{{ photoFileName() || 'No file chosen yet' }}</span>
+        </label>
+        <small class="field-hint">Add a clear photo to help others identify the item faster.</small>
+
+        <div *ngIf="formData().photo" class="photo-preview">
+          <img [src]="formData().photo" [alt]="formData().title || 'Selected photo preview'">
+          <div class="photo-preview-meta">
+            <span>{{ photoFileName() || 'Selected image' }}</span>
+            <button type="button" class="secondary-button" (click)="removePhoto(photoInput)" [disabled]="isLoading()">
+              Remove Photo
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <button 
+        type="submit" 
+        [disabled]="isLoading()">
+        {{ isLoading() ? 'Posting...' : 'Report Missing Item' }}
+      </button>
+    </form>
+  </ng-template>
+</div>

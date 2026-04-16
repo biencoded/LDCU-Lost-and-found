@@ -1,0 +1,24 @@
+<nav class="navbar">
+  <div class="navbar-brand">
+    <h2>LDCU Lost & Found</h2>
+  </div>
+
+  <div class="navbar-links">
+    <a routerLink="">Home</a>
+    <a routerLink="/report">Report</a>
+    <a routerLink="/gallery">Gallery</a>
+
+    <div class="user-actions">
+      <ng-container *ngIf="isAuthenticated(); else guestLinks">
+        <span class="navbar-user">Hi, {{ currentUser()?.username }}</span>
+        <button type="button" class="logout-button" (click)="logout()">
+          Logout
+        </button>
+      </ng-container>
+
+      <ng-template #guestLinks>
+        <a routerLink="/login">Login</a>
+      </ng-template>
+    </div>
+  </div>
+</nav>

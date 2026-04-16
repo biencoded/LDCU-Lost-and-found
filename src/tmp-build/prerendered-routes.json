@@ -1,0 +1,9 @@
+{
+  "routes": {
+    "/": {},
+    "/gallery": {},
+    "/login": {},
+    "/report": {},
+    "/search": {}
+  }
+}

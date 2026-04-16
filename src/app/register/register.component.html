@@ -1,0 +1,34 @@
+<div class="register-shell">
+  <div class="register-card">
+    <h1>Create an Account</h1>
+
+    <form (ngSubmit)="register()">
+      <label class="input-group">
+        <span class="input-icon">👤</span>
+        <input
+          type="text"
+          placeholder="Username"
+          [(ngModel)]="username"
+          name="username"
+        />
+      </label>
+
+      <label class="input-group">
+        <span class="input-icon">🔒</span>
+        <input
+          type="password"
+          placeholder="Create a password"
+          [(ngModel)]="password"
+          name="password"
+        />
+      </label>
+
+      <div class="action-row">
+        <button type="submit" [disabled]="loading">Register</button>
+        <button type="button" routerLink="/login">Back to Login</button>
+      </div>
+
+      <p class="error-message" *ngIf="error">{{ error }}</p>
+    </form>
+  </div>
+</div>
