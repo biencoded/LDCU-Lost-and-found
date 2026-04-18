@@ -16,6 +16,11 @@ export class NavbarComponent {
   protected readonly currentUser = this.authService.currentUser;
   protected readonly isAuthenticated = this.authService.isAuthenticated;
 
+  constructor() {
+    // Ensure session is checked on navbar init
+    this.authService.checkSession().subscribe();
+  }
+
   protected logout() {
     this.authService.logout();
     this.router.navigate(['/login']);

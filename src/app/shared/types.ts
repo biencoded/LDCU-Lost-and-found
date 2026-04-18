@@ -29,10 +29,9 @@ export interface UserResponse {
   role: 'admin' | 'user';
 }
 
-export interface LoginResponse {
-  token: string;
-  user: UserResponse;
-}
+// LoginResponse removed - backend uses different structure
+// Handled specifically in services/auth.service.ts
+
 
 export interface LostItemResponse {
   id: number;

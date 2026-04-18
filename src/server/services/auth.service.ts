@@ -1,7 +1,7 @@
 import bcrypt from 'bcryptjs';
 import { securityConfig } from '../config';
 import { UserRepository } from '../repositories/user.repository';
-import { LoginDto, RegisterDto, UserResponse, LoginResponse } from '../types';
+import { LoginDto, RegisterDto } from '../types';
 
 /**
  * Service for authentication business logic
@@ -10,11 +10,17 @@ import { LoginDto, RegisterDto, UserResponse, LoginResponse } from '../types';
 export class AuthService {
   /**
    * Authenticate user with credentials
+   * Returns user info (without password)
    */
-  static async login(dto: LoginDto): Promise<LoginResponse> {
+  static async login(dto: LoginDto): Promise<{
+    id: number;
+    username: string;
+    name: string;
+    role: 'admin' | 'user';
+  }> {
     // Validate input
-    if (!dto.username || !dto.password || !dto.role) {
-      throw new Error('All fields required');
+    if (!dto.username || !dto.password) {
+      throw new Error('Username and password required');
     }
 
     if (dto.username.length < 3) {
@@ -25,8 +31,8 @@ export class AuthService {
       throw new Error('Password too short');
     }
 
-    // Find user
-    const user = await UserRepository.findByUsernameAndRole(dto.username, dto.role);
+    // Find user by username
+    const user = await UserRepository.findByUsername(dto.username);
 
     if (!user) {
       throw new Error('Invalid credentials');
@@ -38,15 +44,11 @@ export class AuthService {
       throw new Error('Invalid credentials');
     }
 
-    // Generate token (simplified - use JWT in production)
-    const token = this.generateToken(user.id, user.username, user.role);
-
     return {
-      token,
-      user: {
-        username: user.username,
-        role: user.role,
-      },
+      id: user.id,
+      username: user.username,
+      name: user.name,
+      role: user.role,
     };
   }
 
@@ -55,12 +57,16 @@ export class AuthService {
    */
   static async register(dto: RegisterDto): Promise<{ message: string }> {
     // Validate input
-    if (!dto.username || !dto.password) {
-      throw new Error('Required fields missing');
+    if (!dto.username || !dto.password || !dto.name) {
+      throw new Error('All fields required (username, name, password)');
     }
 
     if (dto.username.length < 3) {
       throw new Error('Username must be at least 3 characters');
+    }
+
+    if (dto.name.length < 2) {
+      throw new Error('Name must be at least 2 characters');
     }
 
     if (dto.password.length < 6) {
@@ -77,17 +83,8 @@ export class AuthService {
     const hashedPassword = bcrypt.hashSync(dto.password, securityConfig.bcryptRounds);
 
     // Create user
-    await UserRepository.create(dto.username, hashedPassword);
+    await UserRepository.create(dto.username, dto.name, hashedPassword);
 
-    return { message: 'User created successfully' };
-  }
-
-  /**
-   * Generate auth token (simplified)
-   * TODO: Use JWT in production
-   */
-  private static generateToken(id: number, username: string, role: string): string {
-    // In production, use JWT
-    return `token-${id}-${username}-${role}-${Date.now()}`;
+    return { message: 'User registered successfully. You can now log in.' };
   }
 }

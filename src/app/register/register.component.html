@@ -3,8 +3,19 @@
     <h1>Create an Account</h1>
 
     <form (ngSubmit)="register()">
+
       <label class="input-group">
         <span class="input-icon">👤</span>
+        <input
+          type="text"
+          placeholder="Name"
+          [(ngModel)]="name"
+          name="name"
+        />
+      </label>
+
+      <label class="input-group">
+        <span class="input-icon">✉️</span>
         <input
           type="text"
           placeholder="Username"

@@ -4,6 +4,7 @@ import { RowDataPacket } from 'mysql2/promise';
 export interface DbUserRow extends RowDataPacket {
   id: number;
   username: string;
+  name: string;
   password: string;
   role: 'admin' | 'user';
   created_at: Date;

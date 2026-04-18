@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { firstValueFrom } from 'rxjs';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../services/auth.service';
+import { RegisterDto } from '../shared/types';
 
 @Component({
   standalone: true,
@@ -12,7 +13,9 @@ import { AuthService } from '../services/auth.service';
   imports: [CommonModule, FormsModule, RouterLink],
   templateUrl: './register.component.html'
 })
+
 export class RegisterComponent {
+  protected name = '';
   protected username = '';
   protected password = '';
   protected error = '';
@@ -22,10 +25,20 @@ export class RegisterComponent {
 
   protected async register() {
     this.error = '';
+    if (!this.name || !this.username || !this.password) {
+      this.error = 'Please fill in name, username, and password.';
+      return;
+    }
     this.loading = true;
 
+    const data: RegisterDto = {
+      username: this.username,
+      password: this.password,
+      name: this.name
+    };
+
     try {
-      await firstValueFrom(this.authService.register(this.username, this.password));
+      await firstValueFrom(this.authService.register(data));
       this.router.navigate(['/login']);
     } catch (error) {
       if (error instanceof HttpErrorResponse) {

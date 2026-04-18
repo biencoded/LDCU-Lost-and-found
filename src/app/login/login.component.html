@@ -1,6 +1,10 @@
 <div class="login-shell">
   <main class="login-page">
+
     <section class="hero-panel">
+      <div class="hero-avatar">
+        <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="User Avatar" width="72" height="72" style="border-radius:50%;box-shadow:0 4px 16px rgba(0,0,0,0.08);margin-bottom:1rem;" />
+      </div>
       <div class="hero-copy">
         <h2>Liceo de Cagayan University</h2>
       </div>
@@ -32,14 +36,15 @@
       </div>
 
       <form class="login-form" *ngIf="mode === 'login'" novalidate>
+        <!-- Name field removed for login, only username and password required -->
         <div class="field-group">
-          <label class="field-label">Email Address</label>
+          <label class="field-label">Username</label>
           <div class="field-wrap">
             <span class="field-icon">mail</span>
             <input
               class="field-input"
-              type="email"
-              placeholder="admin@gmail.com or username"
+              type="text"
+              placeholder="Enter your username"
               [(ngModel)]="username"
               name="username"
             />
@@ -74,31 +79,41 @@
           </div>
         </div>
 
+
         <div class="action-group">
           <button class="primary-btn" type="button" (click)="login(loginRole)" [disabled]="loading">
             Sign In
           </button>
+          <button class="secondary-btn" type="button" style="margin-top:0.5rem;" (click)="forgotPassword()">
+            Forgot password?
+          </button>
         </div>
 
-        <div class="action-group secondary-actions">
-          <button class="secondary-btn" type="button" (click)="login('admin')" [disabled]="loading">
-            Admin
-          </button>
-          <button class="secondary-btn" type="button" (click)="login('user')" [disabled]="loading">
-            User
-          </button>
-        </div>
+        <!-- Removed duplicate role toggle buttons -->
       </form>
 
-      <form class="login-form" *ngIf="mode === 'register'" novalidate>
+      <form class="login-form" *ngIf="mode === 'register'" novalidate [class.success]="registrationSuccess">
         <div class="field-group">
-          <label class="field-label">Email Address</label>
+          <label class="field-label">Name</label>
+          <div class="field-wrap">
+            <span class="field-icon">person</span>
+            <input
+              class="field-input"
+              type="text"
+              placeholder="Enter your name"
+              [(ngModel)]="registerName"
+              name="registerName"
+            />
+          </div>
+        </div>
+        <div class="field-group">
+          <label class="field-label">Username</label>
           <div class="field-wrap">
             <span class="field-icon">mail</span>
             <input
               class="field-input"
-              type="email"
-              placeholder="Enter your email"
+              type="text"
+              placeholder="Enter your username"
               [(ngModel)]="registerUsername"
               name="registerUsername"
             />
@@ -127,10 +142,13 @@
             Register Now
           </button>
         </div>
+        <div *ngIf="registrationSuccess" class="success-message">
+          Registration successful! You can now log in.
+        </div>
       </form>
 
       <p class="note-text">
-        Demo admin: admin or admin@gmail.com / admin123. Student accounts can be created from the register tab using your email.
+        Demo admin: admin / admin123. Demo user: demo / demo123. Student accounts can be created from the register tab using your username.
       </p>
 
       <p class="error-message" *ngIf="error">{{ error }}</p>

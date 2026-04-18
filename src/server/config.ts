@@ -1,3 +1,8 @@
+import dotenv from 'dotenv';
+
+// Load environment variables from .env file
+dotenv.config();
+
 // ================= DATABASE CONFIGURATION =================
 export const dbConfig = {
   host: process.env['MYSQL_HOST'] || '127.0.0.1',
@@ -9,12 +14,17 @@ export const dbConfig = {
 
 // ================= SERVER CONFIGURATION =================
 export const serverConfig = {
-  port: process.env['PORT'] || 4000,
+  port: process.env['PORT'] || 4200,
   environment: process.env['NODE_ENV'] || 'development',
+};
+
+// ================= SESSION CONFIGURATION =================
+export const sessionConfig = {
+  secret: process.env['SESSION_SECRET'] || 'your-secret-key-change-me-in-production',
+  timeout: Number(process.env['SESSION_TIMEOUT'] || 3600000), // 1 hour
 };
 
 // ================= SECURITY CONFIGURATION =================
 export const securityConfig = {
-  bcryptRounds: 10,
-  tokenSecret: process.env['TOKEN_SECRET'] || 'your-secret-key-change-me',
+  bcryptRounds: Number(process.env['BCRYPT_ROUNDS'] || 10),
 };

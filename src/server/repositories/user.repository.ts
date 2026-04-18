@@ -34,13 +34,25 @@ export class UserRepository {
   }
 
   /**
+   * Find user by ID
+   */
+  static async findById(id: number): Promise<DbUserRow | null> {
+    const pool = getPool();
+    const [rows] = await pool.execute<DbUserRow[]>(
+      `SELECT * FROM users WHERE id = ? LIMIT 1`,
+      [id]
+    );
+    return rows[0] || null;
+  }
+
+  /**
    * Create a new user
    */
-  static async create(username: string, hashedPassword: string): Promise<number> {
+  static async create(username: string, name: string, hashedPassword: string): Promise<number> {
     const pool = getPool();
     const result = await pool.execute<any>(
-      'INSERT INTO users (username, password) VALUES (?, ?)',
-      [username, hashedPassword]
+      'INSERT INTO users (username, name, password) VALUES (?, ?, ?)',
+      [username, name, hashedPassword]
     );
     return result[0].insertId;
   }
@@ -51,7 +63,7 @@ export class UserRepository {
   static async listAll(): Promise<DbUserRow[]> {
     const pool = getPool();
     const [rows] = await pool.execute<DbUserRow[]>(
-      'SELECT id, username, role, created_at FROM users ORDER BY created_at DESC'
+      'SELECT id, username, name, role, created_at FROM users ORDER BY created_at DESC'
     );
     return rows;
   }

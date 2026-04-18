@@ -48,6 +48,7 @@ async function createTables(): Promise<void> {
     CREATE TABLE IF NOT EXISTS users (
       id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
       username VARCHAR(120) NOT NULL UNIQUE,
+      name VARCHAR(255) NOT NULL,
       password VARCHAR(255) NOT NULL,
       role ENUM('admin', 'user') NOT NULL DEFAULT 'user',
       created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
@@ -72,25 +73,27 @@ async function seedData(): Promise<void> {
   // Seed admin user
   await pool_ref.query(
     `
-      INSERT INTO users (username, password, role)
-      VALUES (?, ?, 'admin')
+      INSERT INTO users (username, name, password, role)
+      VALUES (?, ?, ?, 'admin')
       ON DUPLICATE KEY UPDATE
+        name = VALUES(name),
         password = VALUES(password),
         role = VALUES(role)
     `,
-    ['admin', bcrypt.hashSync('admin123', 10)]
+    ['admin', 'System Administrator', bcrypt.hashSync('admin123', 10)]
   );
 
   // Seed demo user
   await pool_ref.query(
     `
-      INSERT INTO users (username, password, role)
-      VALUES (?, ?, 'user')
+      INSERT INTO users (username, name, password, role)
+      VALUES (?, ?, ?, 'user')
       ON DUPLICATE KEY UPDATE
+        name = VALUES(name),
         password = VALUES(password),
         role = VALUES(role)
     `,
-    ['demo', bcrypt.hashSync('demo123', 10)]
+    ['demo', 'Demo User', bcrypt.hashSync('demo123', 10)]
   );
 
   console.log('📝 Demo Users Seeded:');
